@@ -25,6 +25,7 @@ namespace HAB\Allegro;
 
 use SplStack;
 use ArrayObject;
+use RuntimeException;
 
 /**
  * Allegro parser.
