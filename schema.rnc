@@ -1,0 +1,22 @@
+# RelaxNG Grammar for the XML representation of Allegro records
+#
+# Autor: David Maus
+#
+
+default namespace = "tag:maus@hab.de,2019:Allegro"
+
+start = collection | record
+
+collection = record*
+
+record =
+   element record {
+      attribute number { xsd:int }
+    & field*
+   }
+
+field =
+   element field {
+      attribute tag { xsd:string }
+    & text
+   }
