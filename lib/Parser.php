@@ -92,12 +92,22 @@ class Parser
     private function fieldContent ($stream, $records)
     {
         $content = array();
+        $buffer = array();
+
         while ($stream->peek()) {
-            $content[] = $stream->get();
+            if ($stream->peek() === 20) {
+                $content[] = iconv('cp437', 'UTF-8//TRANSLIT', implode(array_map('chr', $buffer)));
+                $stream->get();
+                $buffer = array();
+            } else {
+                $buffer[] = $stream->get();
+            }
+        }
+        if (!empty($buffer)) {
+            $content[] = iconv('cp437', 'UTF-8//TRANSLIT', implode(array_map('chr', $buffer)));
         }
         $stream->get();
-        $content = implode(array_map('chr', $content));
-        $records->top()->append(iconv('cp437', 'UTF-8//TRANSLIT', $content));
+        $records->top()->append($content);
         return array($this, 'startOfRecord');
     }
 }

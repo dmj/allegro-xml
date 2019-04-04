@@ -40,8 +40,10 @@ class Serializer
             $buffer[]= sprintf('<record number="%d">', $record[0]);
             for ($i = 1; $i < count($record); $i += 2) {
                 $tag = htmlspecialchars($record[$i], ENT_XML1 | ENT_QUOTES | ENT_DISALLOWED);
-                $cnt = htmlspecialchars($record[$i + 1], ENT_XML1 | ENT_QUOTES | ENT_DISALLOWED);
-                $buffer[]= sprintf('<field tag="%s">%s</field>', $tag, $cnt);
+                foreach ($record[$i + 1] as $cnt) {
+                    $cnt = htmlspecialchars($cnt, ENT_XML1 | ENT_QUOTES | ENT_DISALLOWED);
+                    $buffer[]= sprintf('<field tag="%s">%s</field>', trim($tag), trim($cnt));
+                }
             }
             $buffer[]= '</record>';
         }
